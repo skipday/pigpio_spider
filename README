@@ -1,1 +1,8 @@
 Using Erlang for GPIO on a raspberry pi with http://abyz.me.uk/rpi/pigpio/
+
+For setting up a spider:
+1. {ok, Pid} = servotest:start().
+ Pid ! { movement of spiderleg }.
+ 
+ X axis limits: 1000 & 2100
+ Y axis limits: 
