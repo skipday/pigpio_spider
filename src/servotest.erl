@@ -12,6 +12,8 @@ init() ->
         self() ! {center},
         loop(Pid).
 
+
+
 loop(Pid) ->
         receive
                 {stop} -> 

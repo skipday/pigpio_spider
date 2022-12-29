@@ -1,7 +1,7 @@
 {application, pigpio, [
 	{description, ""},
 	{vsn, "rolling"},
-	{modules, ['callback','pigpio','servotest']},
+	{modules, ['callback','conductor','leg','pigpio','servotest']},
 	{registered, []},
 	{applications, [kernel,stdlib]}
 ]}.
