@@ -19,16 +19,10 @@ Pid ! { start }. or Pid ! { stop }.
 - Improved the walk cycle code to include two legs and set the maximum angles for each leg servo as a constant
 - Observed that the angles of the servos seemed to vary slightly each time, possibly due to poor quality of the servos
 
-<img style="display: block; 
-     margin-left: auto;
-     margin-right: auto;
-     src="https://github.com/skipday/media/blob/main/spiderbody_v1_crawl.gif" width=25% height=25%>
+<img src="https://github.com/skipday/media/blob/main/spiderbody_v1_crawl.gif" width=25% height=25%>
 
 ### December 21, 2022
 - Created a test jig using Fusion360 and printed it on a CR-10 3D printer
 - Began testing the walking cycle for a single leg
 
-<img style="display: block; 
-     margin-left: auto;
-     margin-right: auto;
-     src="https://github.com/skipday/media/blob/main/spiderleg_testing.gif" width=25% height=25%>
+<img src="https://github.com/skipday/media/blob/main/spiderleg_testing.gif" width=25% height=25%>
