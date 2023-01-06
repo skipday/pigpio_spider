@@ -1,24 +1,28 @@
 -module(leg).
--export([make/1,init/1,loop/2]).
+-export([make/1, init/1, loop/2]).
 -define(RFMAXFORWARD, 1800).
 -define(RFMAXBACK, 800).
--define(RFMAXUP, 1000).
--define(RFMAXDOWN, 500).
+-define(RFMAXUP, 2000).
+-define(RFMAXDOWN, 1200).
 -define(LFMAXFORWARD, 1200).
 -define(LFMAXBACK, 2000).
 -define(LFMAXUP, 1800).
 -define(LFMAXDOWN, 1200).
 
+-define(COMMONMAXDOWN, 1200).
+-define(COMMONMAXUP, 2000).
+
 make(Leg) ->
     spawn(?MODULE, init, [Leg]).
 
 init(Leg) ->
-    XYPinForwardBack = case Leg of
-        left_front_leg -> {27, 17, ?LFMAXBACK, ?LFMAXFORWARD, ?LFMAXDOWN, ?LFMAXUP};
-        right_front_leg -> {23, 24, ?RFMAXFORWARD, ?RFMAXBACK, ?RFMAXUP, ?RFMAXDOWN}; % ITS NOT 32, 34
-        left_back_leg -> 22;
-        right_back_leg -> 23
-    end,
+    XYPinForwardBack =
+        case Leg of
+            left_front_leg -> {17, 27, ?LFMAXBACK, ?LFMAXFORWARD, ?COMMONMAXUP, ?COMMONMAXDOWN};
+            right_front_leg -> {23, 24, ?RFMAXFORWARD, ?RFMAXBACK, ?COMMONMAXUP, ?COMMONMAXDOWN};
+            left_back_leg -> {26, 19, ?RFMAXFORWARD, ?RFMAXBACK, ?COMMONMAXUP, ?COMMONMAXDOWN};
+            right_back_leg -> {21, 20, ?RFMAXFORWARD, ?RFMAXBACK, ?COMMONMAXUP, ?COMMONMAXDOWN}
+        end,
     loop(XYPinForwardBack, forward).
 
 loop({XPin, YPin, FAng, BAng, UAng, DAng}, Direction) ->
@@ -32,14 +36,19 @@ loop({XPin, YPin, FAng, BAng, UAng, DAng}, Direction) ->
             Pid ! {servo_pos, YPin, DAng},
             timer:sleep(250),
             loop({XPin, YPin, FAng, BAng, UAng, DAng}, backward);
-        {Pid, move} when Direction == backward -> 
+        {Pid, move} when Direction == backward ->
             io:format("Backward stroke init"),
             Pid ! {servo_pos, XPin, BAng},
             timer:sleep(250),
             loop({XPin, YPin, FAng, BAng, UAng, DAng}, forward);
-        {Pid, stand} ->
+        {Pid, up} ->
             io:format("standing up"),
             Pid ! {servo_pos, YPin, DAng},
-            Pid ! {servo_pos, XPin, round((FAng + BAng) / 2)};
-        _Any -> loop({XPin, YPin, FAng, BAng, UAng, DAng}, Direction)
+            loop({XPin, YPin, FAng, BAng, UAng, DAng}, Direction);
+        {Pid, down} ->
+            io:format("sitting down"),
+            Pid ! {servo_pos, YPin, 1600},
+            loop({XPin, YPin, FAng, BAng, UAng, DAng}, Direction);
+        _Any ->
+            loop({XPin, YPin, FAng, BAng, UAng, DAng}, Direction)
     end.
