@@ -8,6 +8,12 @@ Pid ! { start }. or Pid ! { stop }.
 
 ## Changelog
 
+### January 6, 2022
+- Assembled dev-testing spider version.
+- Tried out some servo motor calibration with limited success.
+- Wrote some commands to test out moving mulltiple servos.
+<img alt="spider sit stand routine" src="https://github.com/skipday/media/blob/main/spider_sit_stand.gif" width=50% height=50%>
+
 ### December 30, 2022
 - Redesigned the spider body to better fit the Raspberry Pi device.
 - Some measurements needs correcting for V.3 but it's solid enough to run walk cycle tests on.
