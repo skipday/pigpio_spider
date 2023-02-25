@@ -18,9 +18,9 @@ make(Leg) ->
 init(Leg) ->
     XYPinForwardBack =
         case Leg of
-            left_front_leg -> {17, 27, ?LFMAXBACK, ?LFMAXFORWARD, ?COMMONMAXUP, ?COMMONMAXDOWN};
+            left_front_leg -> {17, 27, ?LFMAXFORWARD, ?LFMAXBACK, ?COMMONMAXUP, ?COMMONMAXDOWN};
             right_front_leg -> {23, 24, ?RFMAXFORWARD, ?RFMAXBACK, ?COMMONMAXUP, ?COMMONMAXDOWN};
-            left_back_leg -> {26, 19, ?RFMAXFORWARD, ?RFMAXBACK, ?COMMONMAXUP, ?COMMONMAXDOWN};
+            left_back_leg -> {26, 19, ?RFMAXBACK, ?RFMAXFORWARD, ?COMMONMAXUP, ?COMMONMAXDOWN};
             right_back_leg -> {21, 20, ?RFMAXFORWARD, ?RFMAXBACK, ?COMMONMAXUP, ?COMMONMAXDOWN}
         end,
     loop(XYPinForwardBack, forward).
@@ -30,9 +30,9 @@ loop({XPin, YPin, FAng, BAng, UAng, DAng}, Direction) ->
         {Pid, move} when Direction == forward ->
             io:format("Forward stroke init"),
             Pid ! {servo_pos, YPin, UAng},
-            timer:sleep(250),
+            timer:sleep(50),
             Pid ! {servo_pos, XPin, FAng},
-            timer:sleep(250),
+            timer:sleep(50),
             Pid ! {servo_pos, YPin, DAng},
             timer:sleep(250),
             loop({XPin, YPin, FAng, BAng, UAng, DAng}, backward);
